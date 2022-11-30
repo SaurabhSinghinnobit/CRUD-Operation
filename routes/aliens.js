@@ -1,5 +1,4 @@
 const express = require('express');
-//const alien = require('../models/alien');
 const router = express.Router();
 const Alien = require('../models/alien');
  
@@ -24,7 +23,10 @@ router.get('/', async(req,res) => {
        res.send('Error:'+ err);
    }
 })
- 
+
+// params. An object containing parameter values parsed from the URL path.
+// For example if you have the route /user/:name , then the "name" from the URL path wil be available as req.params.name .
+
 router.get('/:id', async(req,res) => {
    try {
       const alien = await Alien.findById(req.params.id)
@@ -37,7 +39,7 @@ router.get('/:id', async(req,res) => {
 // POST Query
  
 // Here make an alien object and store the data.
- 
+// The req.body object allows you to access data in a string or JSON object from the client side.
 router.post('/', async(req,res) => {
    const alien = new Alien({
        name: req.body.name,
@@ -140,14 +142,10 @@ router.delete('/:id',async(req,res) => {
    try {
        const alien = await Alien.findById(req.params.id)        
        if (alien) {
-           alien.sub = req.body.sub
-           alien.name = req.body.name
-           alien.tech = req.body.tech
            const a1 = await alien.delete()
            console.log(a1)
            res.json(a1)
-          
-       }
+        }
        else{
            console.log(`In alien object ${alien}data is not present`)
            throw Error("Hey Id can't found");
